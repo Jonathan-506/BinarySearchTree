@@ -228,32 +228,95 @@ namespace BinarySearchTree
             }
         }
 
-
-        public int DepthFinder(Node node, Node target)
+        public int DepthFinder(int target)
         {
-            int depth = 0;
-            if(target.Data < node.Data)
+
+            return DepthFinder(Root, new Node(target));
+        }
+
+        public int DepthFinder(Node node, Node target, int depth = 0)
+        {
+            
+            if(node == null)
             {
-                depth++;
-                return DepthFinder(node.Left, target);
+                return -1;
             }
-            else if(target.Data > node.Data)
-            {
-                depth++;
-                return DepthFinder(node.Right, target);
-            }
-            else if (target.Data == node.Data)
+
+            if (target.Data == node.Data)
             {
                 return depth;
             }
+            if (target.Data < node.Data)
+            {
+                
+               int left = DepthFinder(node.Left, target, depth+1);
+                return left;
+            }
+            else 
+            {
 
-            return depth;
+                int right = DepthFinder(node.Right, target, depth+1);
+                return right;
+            }
+
+
+        }
+        //public int DepthFinder(Node node, Node target, int depth)
+        //{
+        //    if(node == null)
+        //    {
+        //        return -1;
+        //    }
+
+        //    if (target.Data == node.Data)
+        //    {
+        //        return depth;
+        //    }
+
+        //    if (target.Data < node.Data)
+        //    {
+                
+        //        return DepthFinder(node.Left, target, depth++);
+        //    }
+        //    else if (target.Data > node.Data)
+        //    {
+                
+        //        return DepthFinder(node.Right, target, depth++);
+        //    }
+
+
+        //    return -1;
+        //}
+
+        public int HeightFinder()
+        {
+            return HeightFinder(Root);
+        }
+        public int HeightFinder(Node node)
+        {
+            if(node == null)
+            {
+                return 0;
+            }
+
+            return Math.Max(HeightFinder(node.Left) , HeightFinder(node.Right)) + 1;
+            
         }
 
-        public int HieghtFinder()
+        public bool RoughBalance()
         {
+            int leftHeight = HeightFinder(Root.Left);
 
-            return 0;
+            int rightHeight = HeightFinder(Root.Right);
+
+            if (0 == leftHeight - rightHeight || -1 == leftHeight - rightHeight || 1 == leftHeight - rightHeight)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
